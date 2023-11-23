@@ -2,14 +2,18 @@
  *  Compilation:  javac Point.java
  *  Execution:    java Point
  *  Dependencies: none
- *  
+ *
  *  An immutable data type for points in the plane.
  *  For use on Coursera, Algorithms Part I programming assignment.
  *
  ******************************************************************************/
 
-import java.util.Comparator;
 import edu.princeton.cs.algs4.StdDraw;
+import edu.princeton.cs.algs4.StdOut;
+
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Objects;
 
 public class Point implements Comparable<Point> {
 
@@ -19,8 +23,8 @@ public class Point implements Comparable<Point> {
     /**
      * Initializes a new point.
      *
-     * @param  x the <em>x</em>-coordinate of the point
-     * @param  y the <em>y</em>-coordinate of the point
+     * @param x the <em>x</em>-coordinate of the point
+     * @param y the <em>y</em>-coordinate of the point
      */
     public Point(int x, int y) {
         /* DO NOT MODIFY */
@@ -55,11 +59,15 @@ public class Point implements Comparable<Point> {
      * Double.POSITIVE_INFINITY if the line segment is vertical;
      * and Double.NEGATIVE_INFINITY if (x0, y0) and (x1, y1) are equal.
      *
-     * @param  that the other point
+     * @param that the other point
      * @return the slope between this point and the specified point
      */
     public double slopeTo(Point that) {
         /* YOUR CODE HERE */
+        if (compareTo(that) == 0) return Double.NEGATIVE_INFINITY;
+        if (this.x == that.x) return Double.POSITIVE_INFINITY;
+        if (this.y == that.y) return +0.0;
+        return (double) (this.y - that.y) / (double) (this.x - that.x);
     }
 
     /**
@@ -67,15 +75,18 @@ public class Point implements Comparable<Point> {
      * Formally, the invoking point (x0, y0) is less than the argument point
      * (x1, y1) if and only if either y0 < y1 or if y0 = y1 and x0 < x1.
      *
-     * @param  that the other point
+     * @param that the other point
      * @return the value <tt>0</tt> if this point is equal to the argument
-     *         point (x0 = x1 and y0 = y1);
-     *         a negative integer if this point is less than the argument
-     *         point; and a positive integer if this point is greater than the
-     *         argument point
+     * point (x0 = x1 and y0 = y1);
+     * a negative integer if this point is less than the argument
+     * point; and a positive integer if this point is greater than the
+     * argument point
      */
     public int compareTo(Point that) {
         /* YOUR CODE HERE */
+        if (this.y < that.y) return -1;
+        if (this.y > that.y) return +1;
+        return Integer.compare(this.x, that.x);
     }
 
     /**
@@ -86,8 +97,21 @@ public class Point implements Comparable<Point> {
      */
     public Comparator<Point> slopeOrder() {
         /* YOUR CODE HERE */
+        /*
+        return new Comparator<Point>() {
+            public int compare(Point o1, Point o2) {
+                return Double.compare(slopeTo(o1), slopeTo(o2));
+            }
+        }; */
+        return new SlopeComparator();
     }
 
+    /* 实现 Comparator */
+    private class SlopeComparator implements Comparator<Point> {
+        public int compare(Point o1, Point o2) {
+            return Double.compare(slopeTo(o1), slopeTo(o2));
+        }
+    }
 
     /**
      * Returns a string representation of this point.
@@ -106,5 +130,39 @@ public class Point implements Comparable<Point> {
      */
     public static void main(String[] args) {
         /* YOUR CODE HERE */
+        Point a = new Point(0, 0);
+        Point b = new Point(1, 0);
+        Point c = new Point(0, 1);
+        Point d = new Point(1, 1);
+        Point e = new Point(2, 2);
+        Point[] set = new Point[5];
+        set[0] = a;
+        set[1] = b;
+        set[2] = c;
+        set[3] = d;
+        set[4] = e;
+
+        /* Test 1 - test method compareTo */
+        Arrays.sort(set);
+        assert Objects.equals(set[0].toString(), "(0, 0)");
+        assert Objects.equals(set[1].toString(), "(1, 0)");
+        assert Objects.equals(set[2].toString(), "(0, 1)");
+        assert Objects.equals(set[3].toString(), "(1, 1)");
+        assert Objects.equals(set[4].toString(), "(2, 2)");
+        StdOut.println("Test 1 pass");
+
+        /* Test 2 - test method slopeTo */
+        assert a.slopeTo(c) == Double.POSITIVE_INFINITY;
+        assert a.slopeTo(b) == 0.0;
+        assert a.slopeTo(d) == a.slopeTo(e);
+        StdOut.println("Test 2 pass");
+
+        /* Test 3 - test method slopeOrder */
+        Comparator<Point> cp = a.slopeOrder();
+        assert cp.compare(b, c) < 0;
+        assert cp.compare(c, b) > 0;
+        assert cp.compare(d, e) == 0;
+        assert cp.compare(b, d) < 0;
+        StdOut.println("Test 3 pass");
     }
 }
