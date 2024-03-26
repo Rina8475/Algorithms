@@ -4,10 +4,11 @@ import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
 /**
- * Test Files:
- *      tinyTale.txt
- *      tale.txt
- *      leipzig1m.txt
+ *  Data files:   https://algs4.cs.princeton.edu/31elementary/tinyTale.txt
+ *                https://algs4.cs.princeton.edu/31elementary/tale.txt
+ *                https://algs4.cs.princeton.edu/31elementary/leipzig100K.txt
+ *                https://algs4.cs.princeton.edu/31elementary/leipzig300K.txt
+ *                https://algs4.cs.princeton.edu/31elementary/leipzig1M.txt
  * 
  * % java BST 1 < tinyTale.txt
  * it 10
