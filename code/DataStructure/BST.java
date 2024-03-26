@@ -159,6 +159,58 @@ public class BST<Key extends Comparable<Key>, Value> extends OrderedSymbolTable<
     }
 
     @Override
+    public void deleteMin() {
+        root = deleteMin(root);
+    }
+
+    private Node deleteMin(Node x) {
+        if (x.left == null)
+            return x.right;
+        x.left = deleteMin(x.left);
+        x.N = size(x.left) + size(x.right) + 1;
+        return x;
+    }
+
+    @Override
+    public void deleteMax() {
+        root = deleteMax(root);
+    }
+
+    private Node deleteMax(Node x) {
+        if (x.right == null)
+            return x.left;
+        x.right = deleteMin(x.right);
+        x.N = size(x.left) + size(x.right) + 1;
+        return x;
+    }
+
+    @Override
+    public void delete(Key key) {
+        root = delete(root, key);
+    }
+
+    /* delete - 删除以 x 为根节点的树中的键值为 key 的结点
+     * P.S. 当要删除的结点有两个子节点时，默认使用这个节点的
+     * 右子树的最小节点来代替这个节点，然后删除这个结点 */
+    private Node delete(Node x, Key key) {
+        if (x == null)      /* base case 1. 树中查找不到要删除的结点 */
+            return null;
+        int cmp = key.compareTo(x.key);
+        if      (cmp < 0)   x.left = delete(x.left, key);
+        else if (cmp > 0)   x.right = delete(x.right, key);
+        else {              /* base case 2. 查找到了需要删除的结点 */
+            if (x.left == null)     return x.right;     // 当要删除的结点不足两个子节点时
+            if (x.right == null)    return x.left;      // 直接返回另一个节点
+            Node t = x;
+            x = min(x.right);
+            x.right = deleteMin(x.right);
+            x.left = t.left;
+        }
+        x.N = size(x.left) + size(x.right) + 1;
+        return x;
+    }
+
+    @Override
     public Iterable<Key> keys(Key lo, Key hi) {
         Queue<Key> queue = new Queue<Key>();
         keys(root, queue, lo, hi);
