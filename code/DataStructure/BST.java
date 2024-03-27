@@ -91,7 +91,7 @@ public class BST<Key extends Comparable<Key>, Value> extends OrderedSymbolTable<
         return max(root).key;
     }
 
-    /* miax - 返回子树中的最大的结点 */
+    /* max - 返回子树中的最大的结点 */
     private Node max(Node x) {
         if (x.right == null) 
             return x;
