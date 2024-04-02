@@ -204,7 +204,7 @@ public class BST<Key extends Comparable<Key>, Value> extends OrderedSymbolTable<
             if (x.right == null)    return x.left;      // 直接返回另一个节点
             Node t = x;
             x = min(x.right);
-            x.right = deleteMin(x.right);
+            x.right = deleteMin(t.right);
             x.left = t.left;
         }
         x.N = size(x.left) + size(x.right) + 1;
@@ -244,6 +244,8 @@ public class BST<Key extends Comparable<Key>, Value> extends OrderedSymbolTable<
                 distinct++;
             }
         }
+
+        st.delete("business");
 
         // find a key with the highest frequency count
         String max = "";

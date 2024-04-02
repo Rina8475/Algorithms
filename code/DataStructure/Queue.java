@@ -63,7 +63,7 @@ public class Queue<Item> implements Iterable<Item> {
     }
 
     public static void main(String[] args) {
-        ResizingArrayQueue<String> queue = new ResizingArrayQueue<String>();
+        Queue<String> queue = new Queue<String>();
         String[] str_set = new String[] {"to", "be", "or", "not", "to", "-", "be", 
             "-", "-", "that", "-", "-", "-", "is"};
         for (String s: str_set) {

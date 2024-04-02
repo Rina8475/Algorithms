@@ -234,9 +234,5 @@ public class RedBlackBST<Key extends Comparable<Key>, Value>
         StdOut.println(max + " " + st.get(max));
         StdOut.println("distinct = " + distinct);
         StdOut.println("words    = " + words);
-
-        for (String word : st.keys()) {
-            StdOut.println(word + ": " + st.get(word));
-        }
     }
 }
