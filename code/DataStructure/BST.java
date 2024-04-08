@@ -245,8 +245,6 @@ public class BST<Key extends Comparable<Key>, Value> extends OrderedSymbolTable<
             }
         }
 
-        st.delete("business");
-
         // find a key with the highest frequency count
         String max = "";
         st.put(max, 0);
