@@ -9,6 +9,19 @@ public class InsertionSort extends Sort {
         }
     }
 
+    /** this method is designed for MSD string sort */
+    public static void sort(String[] a, int lo, int hi, int d) {
+        for (int i = lo + 1; i <= hi; i += 1) {
+            for (int j = i; j > lo && less(a[j], a[j - 1], d); j -= 1) {
+                exch(a, j, j -1);
+            }
+        }
+    }
+
+    private static boolean less(String v, String w, int d) {
+        return v.substring(d).compareTo(w.substring(d)) < 0;
+    }
+
     public static void main(String[] args) {
         Integer[] a = {2, 1, 3, 15, 26, 12, 44};
         sort(a);
